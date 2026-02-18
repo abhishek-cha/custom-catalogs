@@ -1,4 +1,4 @@
-import { getRedis } from './redis';
+import { getRedis } from './redis.js';
 
 const CACHE_TTL = parseInt(process.env.CACHE_TTL_SECONDS ?? '') || 12 * 60 * 60;
 

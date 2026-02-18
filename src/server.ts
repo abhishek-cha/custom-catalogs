@@ -1,10 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
 import { Environment, traktApi } from '@jsr/trakt__api';
-import { getAccessToken, startDeviceFlow } from './auth';
-import { getCached, setCached } from './cache';
-// @ts-ignore
-import catalogs, { getId, type CatalogEntry } from './catalogs';
+import { getAccessToken, startDeviceFlow } from './auth.js';
+import { getCached, setCached } from './cache.js';
+import catalogs, { getId, type CatalogEntry } from './catalogs.js';
 
 const { TRAKT_CLIENT_ID, TRAKT_CLIENT_SECRET } = process.env;
 if (!TRAKT_CLIENT_ID || !TRAKT_CLIENT_SECRET) {
@@ -27,7 +26,7 @@ const manifest = {
   description: 'Personalized movie and series recommendations and custom lists',
   resources: ['catalog'],
   types: ['movie', 'series'],
-  catalogs: catalogs.map(c => ({ type: c.type, id: getId(c), name: c.name })),
+  catalogs: catalogs.map((c: CatalogEntry) => ({ type: c.type, id: getId(c), name: c.name })),
 };
 
 app.use((_req, res, next) => {
@@ -64,7 +63,7 @@ app.get('/catalog/:type/:id.json', async (req, res) => {
   const { type, id } = req.params;
   const stremioType = type as 'movie' | 'series';
 
-  const entry = catalogs.find(c => getId(c) === id);
+  const entry = catalogs.find((c: CatalogEntry) => getId(c) === id);
   if (!entry) { res.status(404).json({ error: 'Unknown catalog' }); return; }
 
   try {

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import type { OAuthTokenResponse, TraktApi } from '@jsr/trakt__api';
-import { getRedis } from './redis';
+import { getRedis } from './redis.js';
 
 const TOKENS_KEY = 'trakt:tokens';
 const TOKENS_FILE = '.tokens.json';
